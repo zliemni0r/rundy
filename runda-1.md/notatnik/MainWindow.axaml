@@ -1,0 +1,233 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:notatnik"
+        mc:Ignorable="d" d:DesignWidth="950" d:DesignHeight="620"
+        x:Class="notatnik.MainWindow"
+        Title="Notatnik"
+        Width="950" Height="620"
+        MinWidth="720" MinHeight="480"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+        <!-- Pasek nagłówka -->
+        <Border Grid.Row="0"
+                Background="{DynamicResource SystemAccentColorLight2}"
+                Padding="16,10"
+                BorderBrush="{DynamicResource SystemChromeLowColor}"
+                BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock Text="📝" FontSize="20" VerticalAlignment="Center" />
+                    <TextBlock Text="Notatnik" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
+                    <TextBlock Text="— aplikacja do zarządzania notatkami" FontSize="13" Opacity="0.7" VerticalAlignment="Center" Margin="5,0,0,0" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button x:Name="NewNoteHeaderButton"
+                            Content="➕ Nowa notatka"
+                            Click="OnNewNoteClick"
+                            Padding="12,6"
+                            FontWeight="SemiBold"
+                            CornerRadius="6" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Główna zawartość (2 kolumny ze splitterem) -->
+        <Grid Grid.Row="1" ColumnDefinitions="320, 5, *">
+
+            <!-- Lewa kolumna: Lista zapisanych notatek -->
+            <Border Grid.Column="0"
+                    BorderBrush="{DynamicResource SystemChromeLowColor}"
+                    BorderThickness="0,0,1,0"
+                    Background="{DynamicResource SystemRegionBrush}">
+                <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="12,12,12,8">
+                    <!-- Tytuł sekcji listy -->
+                    <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,8">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                            <TextBlock Text="Zapisane notatki" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <TextBlock x:Name="NotesCountBadge" Text="(0)" FontSize="13" Opacity="0.6" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Wyszukiwarka -->
+                    <TextBox Grid.Row="1"
+                             x:Name="SearchTextBox"
+                             PlaceholderText="🔍 Szukaj w notatkach..."
+                             TextChanged="OnSearchTextChanged"
+                             Margin="0,0,0,8"
+                             CornerRadius="6" />
+
+                    <!-- Lista notatek -->
+                    <ListBox Grid.Row="2"
+                             x:Name="NotesListBox"
+                             SelectionChanged="OnNotesSelectionChanged"
+                             CornerRadius="6"
+                             BorderThickness="1"
+                             BorderBrush="{DynamicResource SystemChromeLowColor}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="local:Note">
+                                <Border Padding="6,6" Margin="0,2">
+                                    <StackPanel Spacing="3">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Grid.Column="0"
+                                                       Text="{Binding DisplayTitle}"
+                                                       FontWeight="SemiBold"
+                                                       FontSize="14"
+                                                       TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding FormattedDate}"
+                                                       FontSize="11"
+                                                       Opacity="0.5"
+                                                       Margin="6,0,0,0"
+                                                       VerticalAlignment="Center" />
+                                        </Grid>
+                                        <TextBlock Text="{Binding Preview}"
+                                                   FontSize="12"
+                                                   Opacity="0.75"
+                                                   MaxLines="2"
+                                                   TextWrapping="Wrap"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <!-- Pasek podsumowania lewej kolumny -->
+                    <TextBlock Grid.Row="3"
+                               x:Name="ListFooterTextBlock"
+                               Text="Wybierz notatkę, aby ją otworzyć"
+                               FontSize="11"
+                               Opacity="0.6"
+                               Margin="0,8,0,0"
+                               HorizontalAlignment="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Rozdzielacz paneli -->
+            <GridSplitter Grid.Column="1"
+                          Width="5"
+                          HorizontalAlignment="Stretch"
+                          Background="Transparent" />
+
+            <!-- Prawa kolumna: Pole na tytuł, pole na treść, przyciski -->
+            <Grid Grid.Column="2" RowDefinitions="Auto, Auto, Auto, *, Auto" Margin="20,14,20,12">
+
+                <!-- Pasek akcji nad formularzem -->
+                <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,12">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock x:Name="EditorModeTextBlock"
+                                   Text="Nowa notatka"
+                                   FontSize="16"
+                                   FontWeight="SemiBold" />
+                        <TextBlock x:Name="LastModifiedTextBlock"
+                                   Text="Wprowadź tytuł i treść, a następnie kliknij Zapisz"
+                                   FontSize="12"
+                                   Opacity="0.6" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                        <Button x:Name="DeleteButton"
+                                Content="🗑️ Usuń"
+                                Click="OnDeleteClick"
+                                IsVisible="False"
+                                Background="#FFE0E0"
+                                Foreground="#B91C1C"
+                                Padding="12,7"
+                                CornerRadius="6" />
+
+                        <Button x:Name="ClearButton"
+                                Content="Wyczyść"
+                                Click="OnClearClick"
+                                Padding="12,7"
+                                CornerRadius="6" />
+
+                        <Button x:Name="SaveButton"
+                                Content="💾 Zapisz"
+                                Click="OnSaveClick"
+                                Classes="accent"
+                                FontWeight="Bold"
+                                Padding="16,7"
+                                CornerRadius="6" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Pole na tytuł -->
+                <StackPanel Grid.Row="1" Margin="0,0,0,12">
+                    <TextBlock Text="Tytuł notatki:"
+                               FontWeight="SemiBold"
+                               FontSize="13"
+                               Margin="0,0,0,5" />
+                    <TextBox x:Name="TitleTextBox"
+                             PlaceholderText="Wpisz tytuł notatki..."
+                             FontSize="15"
+                             Padding="10,8"
+                             CornerRadius="6"
+                             TextChanged="OnEditorFieldsChanged" />
+                </StackPanel>
+
+                <!-- Etykieta pola treści -->
+                <Grid Grid.Row="2" ColumnDefinitions="*, Auto" Margin="0,0,0,5">
+                    <TextBlock Grid.Column="0"
+                               Text="Treść notatki:"
+                               FontWeight="SemiBold"
+                               FontSize="13" />
+                    <TextBlock Grid.Column="1"
+                               x:Name="EditorCountersTextBlock"
+                               Text="Znaków: 0 | Słów: 0"
+                               FontSize="12"
+                               Opacity="0.6" />
+                </Grid>
+
+                <!-- Pole na treść -->
+                <TextBox Grid.Row="3"
+                         x:Name="ContentTextBox"
+                         PlaceholderText="Wpisz treść notatki tutaj..."
+                         AcceptsReturn="True"
+                         AcceptsTab="True"
+                         TextWrapping="Wrap"
+                         VerticalContentAlignment="Top"
+                         FontSize="14"
+                         Padding="12,10"
+                         CornerRadius="6"
+                         TextChanged="OnContentTextChanged" />
+
+                <!-- Podpowiedź / pomoc -->
+                <TextBlock Grid.Row="4"
+                           Text="Wskazówka: Zapisane notatki są automatycznie utrwalane w pliku na dysku."
+                           FontSize="11"
+                           Opacity="0.5"
+                           Margin="0,8,0,0" />
+            </Grid>
+        </Grid>
+
+        <!-- Pasek stanu na samym dole -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource SystemChromeLowColor}"
+                Padding="16,6"
+                BorderBrush="{DynamicResource SystemChromeMediumColor}"
+                BorderThickness="0,1,0,0">
+            <Grid ColumnDefinitions="*, Auto">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <TextBlock x:Name="StatusTextBlock"
+                               Text="Gotowy"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                    <TextBlock Text="📁 Plik:" FontSize="12" Opacity="0.7" VerticalAlignment="Center" />
+                    <TextBlock x:Name="FilePathTextBlock"
+                               Text="notatki.json"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

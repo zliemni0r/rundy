@@ -1,0 +1,38 @@
+﻿=== ZAPISANE NOTATKI ===
+Data aktualizacji: 2026-11-19 09:18:53
+
+----------------------------------------
+TYTUŁ: druga notatka
+DATA:  19.11.2026 09:18
+TREŚĆ:
+chej
+----------------------------------------
+
+----------------------------------------
+TYTUŁ: pierwsza noatatka
+DATA:  19.11.2026 09:18
+TREŚĆ:
+fajna notatka
+----------------------------------------
+
+----------------------------------------
+TYTUŁ: Lista zadań na dziś
+DATA:  19.11.2026 08:30
+TREŚĆ:
+1. Zaprojektować interfejs notatnika
+2. Zaimplementować zapis do pliku
+3. Przetestować działanie aplikacji
+----------------------------------------
+
+----------------------------------------
+TYTUŁ: Witaj w Notatniku!
+DATA:  19.11.2026 08:00
+TREŚĆ:
+Aplikacja umożliwia:
+- Wprowadzanie tytułu notatki
+- Wprowadzanie wielolinijkowej treści
+- Zapisywanie zmian przyciskiem 'Zapisz'
+- Przeglądanie listy zapisanych notatek po lewej stronie
+- Trwały zapis do pliku notatki.json oraz notatki.txt
+----------------------------------------
+
