@@ -222,7 +222,7 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <TextBlock Text="📁 Plik:" FontSize="12" Opacity="0.7" VerticalAlignment="Center" />
                     <TextBlock x:Name="FilePathTextBlock"
-                               Text="notatki.json"
+                               Text="notatki.md"
                                FontSize="12"
                                FontWeight="Medium"
                                VerticalAlignment="Center" />

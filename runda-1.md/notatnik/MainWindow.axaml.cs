@@ -41,12 +41,12 @@ public partial class MainWindow : Window
         if (_filteredNotes.Count > 0)
         {
             NotesListBox.SelectedItem = _filteredNotes[0];
-            StatusTextBlock.Text = $"Wczytano {_allNotes.Count} notatek z pliku";
+            StatusTextBlock.Text = $"Wczytano {_allNotes.Count} notatek z pliku notatki.md";
         }
         else
         {
             SetEditorToNewNoteMode();
-            StatusTextBlock.Text = "Brak zapisanych notatek. Utwórz pierwszą!";
+            StatusTextBlock.Text = "Brak notatek. Utwórz pierwszą notatkę!";
         }
 
         UpdateNotesCountBadge();
@@ -154,7 +154,7 @@ public partial class MainWindow : Window
             targetNote.Content = ContentTextBox.Text ?? string.Empty;
             targetNote.UpdatedAt = DateTime.Now;
 
-            // Re-sort order to bring updated note to top
+            // Najnowsza na górze (re-sort)
             _allNotes.Remove(targetNote);
             _allNotes.Insert(0, targetNote);
         }
@@ -171,7 +171,7 @@ public partial class MainWindow : Window
             _currentSelectedNote = targetNote;
         }
 
-        // Zapis do pliku
+        // Zapis do pliku notatki.md
         try
         {
             NotesStorage.SaveNotes(_allNotes);
@@ -187,8 +187,8 @@ public partial class MainWindow : Window
             DeleteButton.IsVisible = true;
 
             StatusTextBlock.Text = isNew
-                ? $"✅ Dodano nową notatkę i zapisano do pliku ({DateTime.Now:HH:mm:ss})"
-                : $"✅ Zaktualizowano notatkę i zapisano do pliku ({DateTime.Now:HH:mm:ss})";
+                ? $"✅ Dodano nową notatkę i zapisano do pliku notatki.md ({DateTime.Now:HH:mm:ss})"
+                : $"✅ Zaktualizowano notatkę i zapisano do pliku notatki.md ({DateTime.Now:HH:mm:ss})";
         }
         catch (Exception ex)
         {
@@ -208,7 +208,7 @@ public partial class MainWindow : Window
             NotesStorage.SaveNotes(_allNotes);
             ApplyFilter();
             SetEditorToNewNoteMode();
-            StatusTextBlock.Text = $"🗑️ Usunięto notatkę \"{noteToRemove.DisplayTitle}\" z pliku";
+            StatusTextBlock.Text = $"🗑️ Usunięto notatkę \"{noteToRemove.DisplayTitle}\" z pliku notatki.md";
         }
         catch (Exception ex)
         {
@@ -256,7 +256,7 @@ public partial class MainWindow : Window
 
     private void OnEditorFieldsChanged(object? sender, TextChangedEventArgs e)
     {
-        // Reserved for auto-dirty checks if needed
+        // Reserved for auto-dirty checks
     }
 
     private void OnContentTextChanged(object? sender, TextChangedEventArgs e)

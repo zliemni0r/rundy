@@ -58,7 +58,7 @@ public class Note : INotifyPropertyChanged
     public string DisplayTitle => string.IsNullOrWhiteSpace(Title) ? "(Bez tytułu)" : Title;
 
     [JsonIgnore]
-    public string FormattedDate => UpdatedAt.ToString("dd.MM.yyyy HH:mm");
+    public string FormattedDate => UpdatedAt.ToString("yyyy-MM-dd HH:mm");
 
     [JsonIgnore]
     public string Preview
@@ -88,4 +88,3 @@ public class Note : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
-
