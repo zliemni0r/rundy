@@ -175,6 +175,7 @@ public partial class MainWindow : Window
         try
         {
             NotesStorage.SaveNotes(_allNotes);
+            StatusText.Text = "Zapisano";
 
             ApplyFilter();
 
@@ -192,6 +193,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
+            StatusText.Text = $"Nie udało się zapisać: {ex.Message}";
             StatusTextBlock.Text = $"❌ Błąd podczas zapisu do pliku: {ex.Message}";
         }
     }
