@@ -129,29 +129,36 @@
                                    Opacity="0.6" />
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                        <Button x:Name="DeleteButton"
-                                Content="🗑️ Usuń"
-                                Click="OnDeleteClick"
-                                IsVisible="False"
-                                Background="#FFE0E0"
-                                Foreground="#B91C1C"
-                                Padding="12,7"
-                                CornerRadius="6" />
+                    <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button x:Name="DeleteButton"
+                                    Content="🗑️ Usuń"
+                                    Click="OnDeleteClick"
+                                    IsVisible="False"
+                                    Background="#FFE0E0"
+                                    Foreground="#B91C1C"
+                                    Padding="12,7"
+                                    CornerRadius="6" />
 
-                        <Button x:Name="ClearButton"
-                                Content="Wyczyść"
-                                Click="OnClearClick"
-                                Padding="12,7"
-                                CornerRadius="6" />
+                            <Button x:Name="ClearButton"
+                                    Content="Wyczyść"
+                                    Click="OnClearClick"
+                                    Padding="12,7"
+                                    CornerRadius="6" />
 
-                        <Button x:Name="SaveButton"
-                                Content="💾 Zapisz"
-                                Click="OnSaveClick"
-                                Classes="accent"
-                                FontWeight="Bold"
-                                Padding="16,7"
-                                CornerRadius="6" />
+                            <Button x:Name="SaveButton"
+                                    Content="💾 Zapisz"
+                                    Click="OnSaveClick"
+                                    Classes="accent"
+                                    FontWeight="Bold"
+                                    Padding="16,7"
+                                    CornerRadius="6" />
+                        </StackPanel>
+                        <TextBlock Name="StatusText"
+                                   FontSize="12"
+                                   HorizontalAlignment="Right"
+                                   TextWrapping="Wrap"
+                                   MaxWidth="300" />
                     </StackPanel>
                 </Grid>
 
